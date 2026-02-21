@@ -133,7 +133,7 @@ def send_to_kindle(epub_path: Path, title: str):
     log.info("Sende '%s' an %s …", epub_path.name, KINDLE_EMAIL)
 
     msg = MIMEMultipart()
-    msg["From"]    = ICLOUD_USER
+    msg["From"]    = GMAIL_USER
     msg["To"]      = KINDLE_EMAIL
     msg["Subject"] = title
     msg.attach(MIMEText("Ihre heutige Ausgabe im Anhang.", "plain"))
