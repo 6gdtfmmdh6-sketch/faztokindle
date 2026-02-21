@@ -24,8 +24,8 @@ from pathlib import Path
 
 FAZ_USERNAME  = os.environ["FAZ_USERNAME"]
 FAZ_PASSWORD  = os.environ["FAZ_PASSWORD"]
-ICLOUD_USER   = os.environ["ICLOUD_USER"]
-ICLOUD_PASS   = os.environ["ICLOUD_PASS"]
+GMAIL_USER   = os.environ["GMAIL_USER"]
+GMAIL_PASS   = os.environ["GMAIL_PASS"]
 KINDLE_EMAIL  = os.environ["KINDLE_EMAIL"]
 
 DOWNLOAD_DIR  = Path("/tmp/faz")
@@ -145,11 +145,11 @@ def send_to_kindle(epub_path: Path, title: str):
     part.add_header("Content-Disposition", f'attachment; filename="{epub_path.name}"')
     msg.attach(part)
 
-    with smtplib.SMTP("smtp.mail.me.com", 587) as smtp:
+    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
         smtp.ehlo()
         smtp.starttls()
-        smtp.login(ICLOUD_USER, ICLOUD_PASS)
-        smtp.sendmail(ICLOUD_USER, KINDLE_EMAIL, msg.as_string())
+        smtp.login(GMAIL_USER, GMAIL_PASS)
+        smtp.sendmail(GMAIL_USER, KINDLE_EMAIL, msg.as_string())
 
     log.info("E-Mail erfolgreich verschickt! ✓")
 
