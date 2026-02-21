@@ -1,0 +1,37 @@
+name: FAZ → Kindle
+
+on:
+  schedule:
+    # 06:30 Uhr MEZ = 05:30 UTC (Winterzeit)
+    # 06:30 Uhr MESZ = 04:30 UTC (Sommerzeit)
+    # Wir nehmen 05:00 UTC – passt für beide Zeitzonen
+    - cron: "0 5 * * *"
+  workflow_dispatch:   # manueller Start per Knopfdruck auf GitHub möglich
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Abhängigkeiten installieren
+        run: |
+          pip install playwright
+          python -m playwright install chromium --with-deps
+
+      - name: FAZ herunterladen und an Kindle senden
+        env:
+          FAZ_USERNAME: ${{ secrets.FAZ_USERNAME }}
+          FAZ_PASSWORD: ${{ secrets.FAZ_PASSWORD }}
+          ICLOUD_USER:  ${{ secrets.ICLOUD_USER }}
+          ICLOUD_PASS:  ${{ secrets.ICLOUD_PASS }}
+          KINDLE_EMAIL: ${{ secrets.KINDLE_EMAIL }}
+        run: python faz_kindle.py
