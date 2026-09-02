@@ -4,9 +4,9 @@ on:
   schedule:
     # 06:30 Uhr MEZ = 05:30 UTC (Winterzeit)
     # 06:30 Uhr MESZ = 04:30 UTC (Sommerzeit)
-    # Wir nehmen 05:00 UTC – passt für beide Zeitzonen
+    # 05:00 UTC — nach 60 Tagen ohne Push war der Cron eingeschlafen.
     - cron: "0 5 * * *"
-  workflow_dispatch:   # manueller Start per Knopfdruck auf GitHub möglich
+  workflow_dispatch:
 
 jobs:
   deliver:
